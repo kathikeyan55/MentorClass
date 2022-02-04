@@ -1,23 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from "react"
+import Button from './components/Button';
 
 function App() {
+  const [showLoader , setLoader] = useState(false);
+  const [qoute , SetQuote] = useState({});
+   const print = () =>{
+      setLoader(true);
+      fetch(`https://quote-garden.herokuapp.com/api/v3/quotes`) 
+      .then((res) => res.json())
+      .then(data => {
+        if(data.statusCode === 200){
+          console.log(data.data[Math.floor(Math.random()*data.data.length-1)]);
+          SetQuote(data.data[Math.floor(Math.random()*data.data.length-1)]);
+          setLoader(false);
+        }
+      })
+   }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <h1 className="heading"> Randon qoute Generator</h1>
+        { showLoader ? (
+          <h2>Fetching a new qoute !!!</h2>
+        ):(
+          <div className="App">
+                 <q>{qoute?.quoteText}</q>
+                {/* {console.log(qoute?.qouteText)} */}
+                 <h4>- {qoute?.quoteAuthor}</h4>
+          </div>
+         
+        )}
+        <Button name={"get a qoute"} onPress={print}></Button>
     </div>
   );
 }
