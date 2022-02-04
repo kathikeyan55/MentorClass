@@ -1,13 +1,13 @@
 import './App.css';
-import {useState} from "react"
+import {useState , useEffect} from "react"
 import Button from './components/Button';
 
 function App() {
-  const [showLoader , setLoader] = useState(false);
+  const [showLoader , setLoader] = useState(true);
   const [qoute , SetQuote] = useState({});
-   const print = () =>{
+   const print =async () =>{
       setLoader(true);
-      fetch(`https://quote-garden.herokuapp.com/api/v3/quotes`) 
+       fetch(`https://quote-garden.herokuapp.com/api/v3/quotes`) 
       .then((res) => res.json())
       .then(data => {
         if(data.statusCode === 200){
@@ -20,12 +20,11 @@ function App() {
   return (
     <div className="App">
        <h1 className="heading"> Randon qoute Generator</h1>
-        { showLoader ? (
+        { showLoader ?(
           <h2>Fetching a new qoute !!!</h2>
         ):(
           <div className="App">
                  <q>{qoute?.quoteText}</q>
-                {/* {console.log(qoute?.qouteText)} */}
                  <h4>- {qoute?.quoteAuthor}</h4>
           </div>
          
@@ -34,5 +33,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
