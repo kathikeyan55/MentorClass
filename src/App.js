@@ -1,9 +1,9 @@
 import './App.css';
-import {useState} from "react"
+import {useState , uesEffect, useEffect } from "react"
 import Button from './components/Button';
 
 function App() {
-  const [showLoader , setLoader] = useState(false);
+  const [showLoader , setLoader] = useState(true);
   const [qoute , SetQuote] = useState({});
    const print = () =>{
       setLoader(true);
@@ -17,6 +17,8 @@ function App() {
         }
       })
    }
+  // print();
+  useEffect(print , [SetQuote])
   return (
     <div className="App">
        <h1 className="heading"> Randon qoute Generator</h1>
